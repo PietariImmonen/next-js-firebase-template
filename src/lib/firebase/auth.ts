@@ -1,4 +1,9 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 
 import { APIResponse } from "@/lib/types/types";
 import { auth } from "@/configs/firebase";
@@ -23,6 +28,60 @@ export async function signInWithGoogle() {
     } else return false;
   } catch (error) {
     console.error("Error signing in with Google", error);
+    return false;
+  }
+}
+
+export async function signInWithEmailAndPasswordAuth(
+  email: string,
+  password: string,
+) {
+  try {
+    const userCreds = await signInWithEmailAndPassword(auth, email, password);
+    const idToken = await userCreds.user.getIdToken();
+
+    const response = await fetch("/api/auth/sign-in", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idToken }),
+    });
+    const resBody = await response.json();
+    if (response.ok && resBody.success) {
+      return true;
+    } else return false;
+  } catch (error) {
+    console.error("Error signing in with email and password", error);
+    return false;
+  }
+}
+
+export async function createUserWithEmailAndPasswordAuth(
+  email: string,
+  password: string,
+) {
+  try {
+    const userCreds = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
+    const idToken = await userCreds.user.getIdToken();
+
+    const response = await fetch("/api/auth/sign-in", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idToken }),
+    });
+    const resBody = await response.json();
+    if (response.ok && resBody.success) {
+      return true;
+    } else return false;
+  } catch (error) {
+    console.error("Error on creating user with email and password: ", error);
     return false;
   }
 }

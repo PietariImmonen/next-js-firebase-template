@@ -12,10 +12,26 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { JSX, SVGProps } from "react";
-import { signInWithGoogle, signOut } from "@/lib/firebase/auth";
+import {
+  createUserWithEmailAndPasswordAuth,
+  signInWithEmailAndPasswordAuth,
+  signInWithGoogle,
+  signOut,
+} from "@/lib/firebase/auth";
 import { useRouter } from "next/navigation";
+import { useFormik } from "formik";
 
-export default function LogInCard() {
+export default function SignInCard() {
+  //Using formik for handling the form
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async (values) => {
+      await createUserWithEmailPassword(values.email, values.password);
+    },
+  });
   const router = useRouter();
   /**
    * Function for signing in with Google
@@ -25,34 +41,65 @@ export default function LogInCard() {
 
     if (isOk) router.push("/dashboard");
   };
+
+  /**
+   * Function for signing in with email and password
+   */
+  const createUserWithEmailPassword = async (
+    password: string,
+    email: string,
+  ) => {
+    const isOk = await createUserWithEmailAndPasswordAuth(password, email);
+
+    if (isOk) router.push("/dashboard");
+  };
   return (
     <Card className="w-full max-w-md sm:mx-0 mx-4">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl">Sign up</CardTitle>
         <CardDescription>
-          Enter your email and password to sign in to your account.
+          Enter your email and password to sign up.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" required />
-        </div>
-        <Button className="w-full">Log in</Button>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              name="email"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              placeholder="m@example.com"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              name="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+              required
+            />
+          </div>
+          <Button className="w-full mt-4" type="submit">
+            Log in
+          </Button>
+        </form>
       </CardContent>
-      <Separator className="my-4" />
+      <Separator className="mb-4" />
       <CardFooter>
         <Button
           variant="outline"
           className="w-full"
-          onClick={() => signInWithGoogle()}
+          onClick={() => signWithGoogle()}
         >
           <ChromeIcon className="mr-2 h-4 w-4" />
-          Sign in with Google
+          Sign up with Google
         </Button>
       </CardFooter>
     </Card>

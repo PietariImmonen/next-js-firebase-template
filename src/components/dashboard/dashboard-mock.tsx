@@ -42,13 +42,14 @@ import { Badge } from "@/components/ui/badge";
 import { JSX, SVGProps } from "react";
 import { signOut } from "@/lib/firebase/auth";
 import { useRouter } from "next/navigation";
+import { User } from "lucide-react";
 
 export default function DashboardMock() {
   const router = useRouter();
   const handleSignOut = async () => {
     const isOk = await signOut();
 
-    if (isOk) router.push("/sign-in");
+    if (isOk) router.push("/log-in");
   };
 
   return (
@@ -245,13 +246,7 @@ export default function DashboardMock() {
                 size="icon"
                 className="overflow-hidden rounded-full"
               >
-                <img
-                  src="/placeholder.svg"
-                  width={36}
-                  height={36}
-                  alt="Avatar"
-                  className="overflow-hidden rounded-full"
-                />
+                <User />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -260,7 +255,10 @@ export default function DashboardMock() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleSignOut()}>
+              <DropdownMenuItem
+                onClick={() => handleSignOut()}
+                className="cursor-pointer"
+              >
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
