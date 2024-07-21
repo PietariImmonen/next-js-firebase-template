@@ -13,11 +13,12 @@ This repository provides a ready-to-use template featuring Next.js 14, TypeScrip
 - [Node.js](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/)
 - [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/)
 - [Ready Firebase project](https://firebase.google.com/docs/web/setup)
+- Email/password authentication and Google authentication enabled from the Firebase Console.
 - [Firebase service-account.json](https://firebase.google.com/support/guides/service-accounts)
 
 ## Setting up the environment
 
-1. **Clone the repository** `git clone https://github.com/PietariImmonen/next-js-firebase-template.git`
+1. **Use this repository as template.** Search from 'Use this template' and press the button.
 2. **Open the folder in your preferred Code Editor.**
 3. **Run** `npm i`
 4. **Configure Environment Variables**
