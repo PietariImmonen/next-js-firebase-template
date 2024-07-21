@@ -36,6 +36,17 @@ Once the setup is complete, you can start the development server with:
 
 This will start your Next.js application on http://localhost:3000.
 
+## Folder structure
+
+The template uses src-folder to store the code. This template has Next.js with App-router enabled.
+
+- **src/app** contains all the code for shown pages and their routes.
+- **src/app/api** contains the API endpoints
+- **src/components** contains the code for the reusable components
+- **src/configs** contains the code for different configurations (eg. firebase)
+- **src/lib** contains the code that is not created with JSX (eg. types, authentication-functions, utility-functions)
+
+
 ## Contributing
 
 Feel free to submit issues and pull requests. Contributions are welcome!
